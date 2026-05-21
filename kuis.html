@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelas Kreatif - Belajar & Kuis Interaktif</title>
+    <!-- Font Google untuk tampilan profesional dan ramah anak -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- DESAIN CSS (GABUNGAN) -->
+    <style>
+        :root {
+            --primary: #118AB2;
+            --secondary: #FFD166;
+            --success: #06D6A0;
+            --danger: #EF476F;
+            --dark: #073B4C;
+            --light: #F8F9FA;
+            --font-heading: 'Fredoka One', cursive;
+            --font-body: 'Quicksand', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .sembunyi {
+            display: none !important;
+        }
+
+        /* NAVBAR & NAVIGASI */
+        header {
+            background: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 26px;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--success);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: #E7F5FF;
+            color: var(--primary);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding: 140px 0 60px;
+            background: linear-gradient(135deg, #E7F5FF 0%, #FFF 100%);
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .hero-text h1 {
+            font-family: var(--font-heading);
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--danger);
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(239, 71, 111, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-image svg {
+            width: 260px;
+            animation: float 3.5s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* SECTION MATERI */
+        .materi {
+            padding: 70px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-family: var(--font-heading);
+            font-size: 32px;
+            color: var(--dark);
+        }
+
+        .grid-materi {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .card-materi {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+            border-bottom: 5px solid transparent;
+            transition: transform 0.3s;
+        }
+
+        .card-materi:hover {
+            transform: translateY(-8px);
+        }
+
+        .card-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .m-sains { border-color: var(--primary); }
+        .m-matematika { border-color: var(--secondary); }
+        .m-bahasa { border-color: var(--success); }
+
+        /* SECTION KUIS UTAMA */
+        .kuis-section {
+            background: var(--primary);
+            padding: 80px 0;
+        }
+
+        .kuis-wrapper, .hasil-container {
+            background: white;
+            padding: 35px;
+            border-radius: 30px;
+            max-width: 650px;
+            margin: 0 auto;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .kuis-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .badge-soal {
+            background: var(--dark);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .skor-live {
+            font-family: var(--font-heading);
+            font-size: 18px;
+        }
+
+        .progres-bar-wrapper {
+            background: #E2E8F0;
+            height: 10px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progres-bar {
+            background: linear-gradient(90deg, var(--success), var(--primary));
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .card-soal h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        /* RESPONSIVE GRID TOMBOL JAWABAN */
+        .opsi-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        @media (min-width: 500px) {
+            .opsi-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .btn-opsi {
+            padding: 15px;
+            border: 2px solid #E2E8F0;
+            border-radius: 16px;
+            background: white;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 16px;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .btn-opsi:hover:not([disabled]) {
+            border-color: var(--primary);
+            background: #F0FAFF;
+            transform: translateY(-2px);
+        }
+
+        .btn-opsi.benar {
+            background: #D1FAE5 !important;
+            border-color: var(--success) !important;
+            color: #065F46 !important;
+        }
+
+        .btn-opsi.salah {
+            background: #FEE2E2 !important;
+            border-color: var(--danger) !important;
+            color: #991B1B !important;
+        }
+
+        /* FEEDBACK BOX JAWABAN */
+        .feedback-box {
+            margin-top: 25px;
+            text-align: center;
+            padding: 20px;
+            border-radius: 18px;
+            animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popUp {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .btn-aksi {
+            background: var(--dark);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: var(--font-body);
+            font-size: 16px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.2s;
+        }
+
+        .btn-aksi:hover {
+            transform: scale(1.05);
+        }
+
+        /* HASIL AKHIR */
+        .hasil-container {
+            text-align: center;
+        }
+
+        .piala {
+            font-size: 65px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .skor-akhir {
+            font-family: var(--font-heading);
+            font-size: 70px;
+            color: var(--success);
+            margin: 10px 0;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            font-size: 14px;
+        }
+
+        /* MOBILE MENU HAMBURGER NAVIGATION */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--dark);
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 65px;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+            }
+            .nav-links.aktif {
+                display: flex;
+            }
+            .hero-text h1 { font-size: 32px; }
+            .hero-content { text-align: center; }
+            .hero-image { order: -1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGASI UTAMA -->
+    <header>
+        <div class="navbar container">
+            <div class="logo">Kelas<span>Kreatif</span></div>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="materi.html">Materi</a></li>
+                    <li><a href="kuis.html">Kuis Interaktif</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle" id="mobileMenu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO / HALAMAN UTAMA -->
+    <section id="home" class="hero">
+        <div class="hero-content container">
+            <div class="hero-text">
+                <h1>Petualangan Belajar Menantimu!</h1>
+                <p>Edukasi interaktif yang dirancang khusus untuk mengasah kreativitas dan kecerdasan anak melalui cara yang seru dan penuh warna.</p>
+                <a href="#kuis" class="btn-primary">Mainkan Kuis Sekarang!</a>
+            </div>
+            <div class="hero-image">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="80" fill="#FFD166" />
+                    <rect x="60" y="60" width="80" height="80" rx="10" fill="#06D6A0" />
+                    <path d="M100 70 L130 120 L70 120 Z" fill="#118AB2" />
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION MATERI PELAJARAN -->
+    <section id="materi" class="materi container">
+        <div class="section-title">
+            <h2>Eksplorasi Materi Seru</h2>
+        </div>
+        <div class="grid-materi">
+            <div class="card-materi m-sains">
+                <div class="card-icon">🔬</div>
+                <h3>Sains & Alam</h3>
+                <p>Mengenal keajaiban alam semesta dan makhluk hidup.</p>
+            </div>
+            <div class="card-materi m-matematika">
+                <div class="card-icon">🧮</div>
+                <h3>Matematika</h3>
+                <p>Belajar berhitung cepat dengan trik logika logika asyik.</p>
+            </div>
+            <div class="card-materi m-bahasa">
+                <div class="card-icon">📚</div>
+                <h3>Bahasa</h3>
+                <p>Dunia literasi membaca dan merangkai cerita kreatif.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION MINI GAMES / KUIS INTERAKTIF -->
+    <section id="kuis" class="kuis-section">
+        <div class="container">
+            <div class="section-title">
+                <h2 style="color: white;">🧠 Uji Kemampuan Hebatmu!</h2>
+            </div>
+            
+            <!-- Box Main Kuis -->
+            <div class="kuis-wrapper" id="kuisContainer">
+                <div class="kuis-header">
+                    <span class="badge-soal" id="infoSoal">Soal 1</span>
+                    <div class="skor-live">Skor: <span id="skorLive">0</span></div>
+                </div>
+                <div class="progres-bar-wrapper">
+                    <div class="progres-bar" id="progressBar"></div>
+                </div>
+                <div class="card-soal">
+                    <h2 id="teksPertanyaan">Menyiapkan tantangan kuis...</h2>
+                    <div class="opsi-grid" id="areaOpsi"></div>
+                </div>
+                <div class="feedback-box sembunyi" id="feedbackBox">
+                    <p id="teksFeedback"></p>
+                    <button class="btn-aksi" id="btnLanjut" onclick="soalBerikutnya()">Lanjut No. Berikutnya ➡️</button>
+                </div>
+            </div>
+
+            <!-- Box Hasil Skor Akhir (Sembunyi di Awal) -->
+            <div class="hasil-container sembunyi" id="hasilContainer">
+                <div class="piala">🏆</div>
+                <h2>Hore! Kamu Selesai!</h2>
+                <div class="skor-akhir" id="skorAkhir">0</div>
+                <p id="pesanSanjungan">Hebat sekali!</p>
+                <button class="btn-aksi" onclick="ulangKuis()">Main Lagi Yuk 🔄</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 KelasKreatif Edukasi. Belajar Mandiri Jadi Lebih Mudah!</p>
+    </footer>
+
+
+    <!-- LOGIKA JAVASCRIPT (GABUNGAN) -->
+    <script>
+        // 1. RESPONSIVE MENU RESPONS HP
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('aktif');
+        });
+
+        // Tutup menu otomatis saat salah satu link diklik di HP
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('aktif');
+            });
+        });
+
+       
+// 2. BANK DATA PERTANYAAN KUIS ANAK (100 SOAL)
+const bankSoal = [
+    // === HEWAN & TUMBUHAN (1-15) ===
+    {
+        q: "🍎 Buah apa yang umumnya berwarna merah cerah dan rasanya manis krispi?",
+        o: ["Buah Jeruk", "Buah Apel", "Buah Pisang", "Buah Salak"],
+        a: 1,
+        msg: "Pintar! Benar, jawabannya adalah Apel! 🍎"
+    },
+    {
+        q: "🦁 Hewan mamalia apa yang dijuluki sebagai sang Raja Hutan?",
+        o: ["Kelinci", "Gajah", "Singa", "Zebra"],
+        a: 2,
+        msg: "Roar! Luar biasa, jawabanmu tepat: Singa! 🦁"
+    },
+    {
+        q: "☀️ Benda langit berukuran sangat besar apa yang menyinari bumi di pagi hari?",
+        o: ["Bulan", "Bintang-bintang", "Matahari", "Pelangi"],
+        a: 2,
+        msg: "Terang sekali! Tepat, jawabannya adalah Matahari! ☀️"
+    },
+    {
+        q: "🐸 Hewan apa yang dikenal bisa hidup di dua alam, yaitu di darat dan di air?",
+        o: ["Kucing", "Ikan Mas", "Katak", "Burung Elang"],
+        a: 2,
+        msg: "Hebat! Katak adalah contoh hewan amfibi yang hidup di dua alam! 🐸"
+    },
+    {
+        q: "🦒 Hewan apa yang memiliki leher sangat panjang untuk memakan daun di pohon tinggi?",
+        o: ["Gajah", "Jerapah", "Kuda", "Kambing"],
+        a: 1,
+        msg: "Betul sekali! Jerapah menggunakan leher panjangnya untuk meraih daun tinggi! 🦒"
+    },
+    {
+        q: "🦇 Hewan mamalia apa yang bisa terbang dan aktif mencari makan pada malam hari?",
+        o: ["Kelelawar", "Burung hantu", "Ayam", "Kupu-kupu"],
+        a: 0,
+        msg: "Luar biasa! Kelelawar adalah mamalia terbang yang aktif di malam hari (nokturnal)! 🦇"
+    },
+    {
+        q: "🍉 Buah apa yang kulit luarnya berwarna hijau, tetapi daging dalamnya berwarna merah dan berair?",
+        o: ["Melon", "Semangka", "Pepaya", "Mangga"],
+        a: 1,
+        msg: "Segar sekali! Benar, itu adalah buah Semangka! 🍉"
+    },
+    {
+        q: "🐝 Hewan kecil apa yang suka menghisap nektar bunga dan menghasilkan madu yang manis?",
+        o: ["Semut", "Lalat", "Lebah", "Kecoa"],
+        a: 2,
+        msg: "Manis! Lebah mengumpulkan nektar bunga untuk diubah menjadi madu! 🐝"
+    },
+    {
+        q: "🐢 Hewan reptil apa yang berjalan sangat lambat dan memiliki tempurung keras di punggungnya?",
+        o: ["Kura-kura", "Kadal", "Ular", "Buaya"],
+        a: 0,
+        msg: "Tepat! Tempurung kura-kura berfungsi sebagai rumah pelindungnya! 🐢"
+    },
+    {
+        q: "🥕 Sayuran berwarna jingga apa yang sangat baik untuk kesehatan mata kita?",
+        o: ["Bayam", "Wortel", "Kentang", "Kubis"],
+        a: 1,
+        msg: "Benar! Wortel mengandung banyak Vitamin A yang bagus untuk mata! 🥕"
+    },
+    {
+        q: "🐬 Meskipun hidup di air dan pandai berenang, hewan ini bernapas dengan paru-paru. Siapakah dia?",
+        o: ["Ikan Hiu", "Ikan Paus", "Lumba-lumba", "Kepiting"],
+        a: 2,
+        msg: "Pintar! Lumba-lumba adalah mamalia laut, bukan termasuk jenis ikan! 🐬"
+    },
+    {
+        q: "🐘 Hewan darat terbesar apa yang memiliki belalai panjang dan telinga yang lebar?",
+        o: ["Badak", "Kudanil", "Gajah", "Harimau"],
+        a: 2,
+        msg: "Hebat! Belalai gajah berfungsi seperti tangan untuk mengambil makanan! 🐘"
+    },
+    {
+        q: "🍌 Buah apa yang menjadi makanan favorit monyet dan berwarna kuning saat matang?",
+        o: ["Pisang", "Jeruk", "Anggur", "Strawberry"],
+        a: 0,
+        msg: "Yum! Pisang kaya akan kalium dan sangat disukai monyet! 🍌"
+    },
+    {
+        q: "🥔 Bagian tumbuhan manakah wortel dan kentang yang sering kita makan sehari-hari?",
+        o: ["Daun", "Bunga", "Akar / Umbi", "Batang"],
+        a: 2,
+        msg: "Betul! Wortel dan kentang merupakan bagian akar atau umbi yang menyimpan cadangan makanan! 🥔"
+    },
+    {
+        q: "🦅 Burung apa yang memiliki penglihatan sangat tajam dan dikenal sebagai pemburu ulung?",
+        o: ["Burung Merpati", "Burung Elang", "Burung Kolibri", "Burung Kakaktua"],
+        a: 1,
+        msg: "Keren! Burung Elang bisa melihat mangsanya dari jarak yang sangat jauh! 🦅"
+    },
+
+    // === MATEMATIKA DASAR (16-35) ===
+    {
+        q: "🧮 Berapakah hasil dari penjumlahan matematika berikut: 12 + 15?",
+        o: ["25", "27", "29", "30"],
+        a: 1,
+        msg: "Tepat! 12 ditambah 15 hasilnya adalah 27! 🎯"
+    },
+    {
+        q: "📐 Berapakah jumlah total sisi yang dimiliki oleh sebuah bangun datar segitiga?",
+        o: ["3 sisi", "4 sisi", "5 sisi", "2 sisi"],
+        a: 0,
+        msg: "Benar! Sesuai namanya, segitiga memiliki 3 buah sisi! 📐"
+    },
+    {
+        q: "🧮 Berapakah hasil perkalian matematika dasar berikut: 6 dikali 5?",
+        o: ["25", "35", "30", "40"],
+        a: 2,
+        msg: "Hebat! 6 x 5 hasilnya adalah 30! 🎯"
+    },
+    {
+        q: "🔢 Jika kamu memiliki 20 butir kelereng lalu memberikan 7 butir kepada adikmu, sisa berapakah kelerengmu?",
+        o: ["11 butir", "12 butir", "13 butir", "14 butir"],
+        a: 2,
+        msg: "Bagus! 20 dikurangi 7 sisa kelerengmu sekarang adalah 13 butir! 💎"
+    },
+    {
+        q: "⚽ Berbentuk apakah benda-benda seperti bola sepak, bola basket, dan kelereng?",
+        o: ["Lingkaran", "Tabung", "Bola", "Kerucut"],
+        a: 2,
+        msg: "Tepat! Bola adalah bangun ruang tiga dimensi yang bulat sempurna! ⚽"
+    },
+    {
+        q: "🧮 Berapakah hasil pembagian matematika berikut: 24 dibagi dengan 4?",
+        o: ["5", "6", "7", "8"],
+        a: 1,
+        msg: "Benar! Karena 6 dikali 4 adalah 24, maka 24 dibagi 4 adalah 6! 🎯"
+    },
+    {
+        q: "⏰ Jika sekarang menunjukkan pukul 09.00 pagi, jam berapakah 2 jam kemudian?",
+        o: ["Pukul 10.00", "Pukul 11.00", "Pukul 12.00", "Pukul 08.00"],
+        a: 1,
+        msg: "Pintar! 9 ditambah 2 jam berarti waktu akan menunjukkan pukul 11.00! ⏰"
+    },
+    {
+        q: "📦 Bangun ruang tiga dimensi apa yang semua sisinya berbentuk persegi berukuran sama besar?",
+        o: ["Balok", "Kubus", "Prisma", "Tabung"],
+        a: 1,
+        msg: "Betul! Kubus memiliki 6 sisi persegi yang semuanya sama besar, seperti dadu! 📦"
+    },
+    {
+        q: "🔢 Manakah di antara bilangan berikut ini yang termasuk ke dalam kelompok bilangan ganjil?",
+        o: ["4", "8", "9", "12"],
+        a: 2,
+        msg: "Benar! 9 adalah bilangan ganjil karena tidak habis jika dibagi dua! 🔢"
+    },
+    {
+        q: "🧮 Berapakah hasil dari operasi matematika dasar berikut: 50 dikurangi 18?",
+        o: ["32", "34", "22", "42"],
+        a: 0,
+        msg: "Tepat sekali! 50 - 18 hasilnya adalah 32! 🎯"
+    },
+    {
+        q: "🔢 Berapakah nilai tempat dari angka 7 pada bilangan 372?",
+        o: ["Satuan", "Puluhan", "Ratusan", "Ribuan"],
+        a: 1,
+        msg: "Hebat! Angka 7 menempati posisi puluhan (bernilai 70)! 🔢"
+    },
+    {
+        q: "📐 Berapakah jumlah seluruh sudut yang dimiliki oleh bangun datar persegi panjang?",
+        o: ["2 sudut", "3 sudut", "4 sudut", "5 sudut"],
+        a: 2,
+        msg: "Benar! Persegi panjang memiliki 4 sudut yang semuanya berbentuk siku-siku! 📐"
+    },
+    {
+        q: "🧮 Berapakah hasil perkalian matematika dasar berikut: 9 dikali 3?",
+        o: ["24", "26", "27", "28"],
+        a: 2,
+        msg: "Top! 9 x 3 sama dengan 27! 🎯"
+    },
+    {
+        q: "🔢 Jika sebuah toko buku memiliki 15 pak buku dan setiap pak berisi 10 buku, berapa total buku seluruhnya?",
+        o: ["150 buku", "105 buku", "510 buku", "250 buku"],
+        a: 0,
+        msg: "Luar biasa! 15 dikali 10 adalah 150 buku! 📚"
+    },
+    {
+        q: "🛑 Berapakah jumlah total sisi yang menyusun bangun datar lingkaran?",
+        o: ["0 sisi", "1 sisi lengkung", "4 sisi", "Tak terhingga"],
+        a: 1,
+        msg: "Tepat! Lingkaran hanya dibatasi oleh 1 garis sisi lengkung yang saling bertemu! 🛑"
+    },
+    {
+        q: "🧮 Berapakah hasil dari operasi hitung campuran berikut: 5 + 3 x 2?",
+        o: ["16", "11", "10", "13"],
+        a: 1,
+        msg: "Jenius! Perkalian harus dihitung duluan. (3 x 2 = 6), lalu baru ditambah 5 menjadi 11! 🧠"
+    },
+    {
+        q: "⏰ Ada berapakah jumlah total menit di dalam waktu 1 jam penuh?",
+        o: ["30 menit", "50 menit", "60 menit", "100 menit"],
+        a: 2,
+        msg: "Benar! 1 jam itu sama dengan 60 menit! ⏰"
+    },
+    {
+        q: "🔢 Berapakah kelanjutan urutan pola angka bilangan melompat berikut: 2, 4, 6, 8, ...?",
+        o: ["9", "10", "11", "12"],
+        a: 1,
+        msg: "Hebat! Polanya adalah selalu ditambah 2, jadi setelah 8 adalah 10! 🔢"
+    },
+    {
+        q: "🧮 Berapakah hasil pembagian matematika berikut: 100 dibagi dengan 5?",
+        o: ["15", "20", "25", "30"],
+        a: 1,
+        msg: "Betul! 100 dibagi 5 hasilnya adalah 20! 🎯"
+    },
+    {
+        q: "📐 Apa nama alat ukur yang paling tepat kita gunakan untuk mengukur panjang sebuah buku tulis?",
+        o: ["Timbangan", "Penggaris", "Termometer", "Jam dinding"],
+        a: 1,
+        msg: "Sangat tepat! Penggaris digunakan untuk mengukur jarak atau panjang benda yang pendek! 📐"
+    },
+
+    // === SAINS & ALAM (36-55) ===
+    {
+        q: "🔬 Apa sebutan untuk gas oksigen yang sangat penting bagi proses pernapasan manusia sehari-hari?",
+        o: ["Udara / Udara bersih", "Air", "Makanan", "Tanah"],
+        a: 0,
+        msg: "Benar! Manusia menghirup oksigen yang ada di udara untuk bernapas! 💨"
+    },
+    {
+        q: "🧊 Air yang dipanaskan terus-menerus hingga mendidih lama-kelamaan akan berubah wujud menjadi apa?",
+        o: ["Es batu", "Uap gas", "Minyak", "Tanah padat"],
+        a: 1,
+        msg: "Tepat! Perubahan wujud air menjadi uap gas disebut sebagai proses menguap! ☁️"
+    },
+    {
+        q: "🧊 Berubah wujud menjadi apakah air cair jika kita masukkan ke dalam lemari es pembeku (freezer)?",
+        o: ["Uap", "Minyak", "Es padat", "Asap"],
+        a: 2,
+        msg: "Bagus! Air cair yang mendingin akan membeku menjadi es batu yang padat! 🧊"
+    },
+    {
+        q: "🌱 Apa bagian tumbuhan yang bertugas menyerap air dan zat hara dari dalam tanah?",
+        o: ["Daun", "Batang", "Akar", "Bunga"],
+        a: 2,
+        msg: "Benar! Akar berada di dalam tanah untuk menyerap air demi kebutuhan hidup tumbuhan! 🌱"
+    },
+    {
+        q: "☀️ Mengapa matahari dikategorikan sebagai sebuah bintang di jagat raya kita?",
+        o: ["Karena sangat dingin", "Karena bisa memancarkan cahaya sendiri", "Keiarna berbentuk kotak", "Karena mengitari bumi"],
+        a: 1,
+        msg: "Pintar! Bintang adalah benda langit yang dapat memancarkan cahayanya sendiri! ☀️"
+    },
+    {
+        q: "🩺 Organ tubuh manusia manakah yang bekerja tanpa henti untuk memompa darah ke seluruh tubuh?",
+        o: ["Paru-paru", "Lambung", "Jantung", "Otak"],
+        a: 2,
+        msg: "Betul! Jantung kita berdetak setiap saat untuk memompa aliran darah! 🩺"
+    },
+    {
+        q: "🌈 Apa penyebab utama munculnya fenomena pelangi yang indah di langit setelah hujan turun?",
+        o: ["Pembiasan cahaya matahari oleh titik air", "Angin kencang", "Awan mendung", "Polusi udara"],
+        a: 0,
+        msg: "Luar biasa! Cahaya matahari yang melewati butiran sisa air hujan akan dibiaskan menjadi warna pelangi! 🌈"
+    },
+    {
+        q: "🧲 Gaya tak terlihat apa yang menyebabkan sebuah buah mangga jatuh dari atas pohon langsung ke tanah?",
+        o: ["Gya Magnet", "Gaya Gravitasi", "Gaya Gesek", "Gaya Pegas"],
+        a: 1,
+        msg: "Tepat! Gaya gravitasi bumi menarik semua benda jatuh menuju ke pusat bumi! 🌍"
+    },
+    {
+        q: "🩸 Apakah fungsi utama dari organ paru-paru yang ada di dalam rongga dada manusia?",
+        o: ["Mencerna makanan", "Tempat pertukaran gas pernapasan", "Menyaring racun", "Menggerakkan tangan"],
+        a: 1,
+        msg: "Benar! Paru-paru menyerap oksigen dan mengeluarkan karbon dioksida saat kita bernapas! 💨"
+    },
+    {
+        q: "🦷 Berapakah jumlah total panca indra dasar yang dimiliki oleh makhluk hidup manusia?",
+        o: ["3 indra", "4 indra", "5 indra", "6 indra"],
+        a: 2,
+        msg: "Hebat! Manusia punya 5 indra (Mata, Telinga, Hidung, Lidah, dan Kulit)! 🦷"
+    },
+    {
+        q: "👁️ Panca indra manakah yang kita gunakan sehari-hari untuk mendengarkan alunan musik atau suara penjelasan guru?",
+        o: ["Mata", "Hidung", "Telinga", "Lidah"],
+        a: 2,
+        msg: "Betul! Telinga adalah indra pendengaran kita! 👂"
+    },
+    {
+        q: "👅 Bagian panca indra manakah yang berfungsi sebagai alat pengecap rasa makanan (manis, asin, pahit, asam)?",
+        o: ["Kulit", "Hidung", "Lidah", "Gigi"],
+        a: 2,
+        msg: "Yum! Lidah mendeteksi rasa lewat bintil-bintil perasa yang ada di permukaannya! 👅"
+    },
+    {
+        q: "🪐 Apa nama planet tempat tinggal manusia yang dikenal juga sebagai Planet Biru dalam tata surya kita?",
+        o: ["Mars", "Bumi", "Yupiter", "Saturnus"],
+        a: 1,
+        msg: "Tepat! Bumi tampak biru dari luar angkasa karena sebagian besar permukaannya ditutupi air laut! 🌍"
+    },
+    {
+        q: "🪐 Apa nama planet terbesar yang ada di dalam sistem tata surya kita?",
+        o: ["Merkurius", "Bumi", "Yupiter", "Neptunus"],
+        a: 2,
+        msg: "Benar! Yupiter adalah planet raksasa gas terbesar di tata surya! 🪐"
+    },
+    {
+        q: "🪐 Planet manakah yang terkenal sangat indah karena dikelilingi oleh cincin raksasa yang megah?",
+        o: ["Saturnus", "Venus", "Uranus", "Mars"],
+        a: 0,
+        msg: "Cantik sekali! Cincin Saturnus terdiri dari miliaran bongkahan es dan batu! 🪐"
+    },
+    {
+        q: "🧊 Benda-benda yang memiliki bentuk dan volume yang selalu tetap meskipun dipindahkan wadah disebut benda...",
+        o: ["Cair", "Padat", "Gas", "Campuran"],
+        a: 1,
+        msg: "Tepat! Benda padat seperti pensil atau batu tidak akan berubah bentuk jika dipindahkan! 🧊"
+    },
+    {
+        q: "🥛 Benda yang memiliki bentuk berubah-ubah mengikuti wadah tetapi volumenya tetap dinamakan benda...",
+        o: ["Padat", "Cair", "Gas", "Udara"],
+        a: 1,
+        msg: "Benar! Air atau minyak akan berbentuk seperti botol jika dimasukkan ke botol! 🥛"
+    },
+    {
+        q: "🌱 Zat hijau daun pada tumbuhan yang sangat penting untuk proses fotosintesis pembuatan makanan disebut...",
+        o: ["Klorofil", "Oksigen", "Karbon", "Akar"],
+        a: 0,
+        msg: "Hebat! Klorofil membantu tumbuhan menangkap cahaya matahari untuk memasak makanannya! 🌱"
+    },
+    {
+        q: "⚡ Energi apakah yang paling sering digunakan untuk menyalakan televisi, lampu rumah, dan kipas angin?",
+        o: ["Energi Air", "Energi Listrik", "Energi Bunyi", "Energi Panas"],
+        a: 1,
+        msg: "Betul! Energi listrik diubah menjadi energi cahaya, bunyi, dan gerak di rumah kita! ⚡"
+    },
+    {
+        q: "🔋 Apa sumber energi panas terbesar bagi kehidupan seluruh makhluk hidup di planet Bumi?",
+        o: ["Api unggun", "Lampu neon", "Matahari", "Gunung berapi"],
+        a: 2,
+        msg: "Top! Matahari adalah sumber panas dan cahaya utama yang menjaga bumi tetap hangat! ☀️"
+    },
+
+    // === BAHASA & SASTRA (56-70) ===
+    {
+        q: "📝 Apa antonim atau lawan kata yang paling tepat dari kata 'Besar'?",
+        o: ["Luas", "Kecil", "Tinggi", "Panjang"],
+        a: 1,
+        msg: "Benar! Lawan kata dari besar adalah kecil! 📝"
+    },
+    {
+        q: "📝 Apa sinonim atau persamaan arti kata yang paling tepat dari kata 'Pintar'?",
+        o: ["Bodoh", "Cerdas", "Malas", "Lucu"],
+        a: 1,
+        msg: "Hebat! Orang yang pintar juga bisa disebut sebagai orang yang cerdas! 🧠"
+    },
+    {
+        q: "📚 Ada berapakah jumlah total huruf vokal dalam susunan abjad bahasa Indonesia?",
+        o: ["3 huruf", "4 huruf", "5 huruf", "21 huruf"],
+        a: 2,
+        msg: "Tepat! Huruf vokal itu ada 5, yaitu: A, I, U, E, dan O! 📚"
+    },
+    {
+        q: "✏️ Manakah di bawah ini yang penulisan huruf kapitalnya paling benar untuk nama orang?",
+        o: ["budi santoso", "Budi Santoso", "Budi santoso", "budi Santoso"],
+        a: 1,
+        msg: "Pintar! Nama orang wajib diawali dengan huruf kapital pada setiap katanya! ✏️"
+    },
+    {
+        q: "📝 Apa lawan kata atau antonim yang paling tepat dari kata 'Sering'?",
+        o: ["Selalu", "Jarang", "Kadang", "Biasa"],
+        a: 1,
+        msg: "Betul! Lawan kata dari sering (berkali-kali) adalah jarang! 📝"
+    },
+    {
+        q: "❓ Tanda baca manakah yang wajib diletakkan di bagian akhir dari sebuah kalimat tanya?",
+        o: ["Tanda titik (.)", "Tanda seru (!)", "Tanda tanya (?)", "Tanda koma (,)"],
+        a: 2,
+        msg: "Tepat! Kalimat tanya selalu diakhiri dengan tanda tanya (?)! ❓"
+    },
+    {
+        q: "❗️ Tanda baca manakah yang digunakan untuk mengakhiri kalimat perintah atau seruan bernada tegas?",
+        o: ["Tanda titik (.)", "Tanda koma (,)", "Tanda seru (!)", "Tanda tanya (?)"],
+        a: 2,
+        msg: "Benar! Tanda seru (!) digunakan untuk kalimat perintah atau larangan! ❗️"
+    },
+    {
+        q: "📖 Kalimat 'Ibu memasak nasi di dapur.' Manakah kata yang berkedudukan sebagai subjek (pelaku)?",
+        o: ["Memasak", "Nasi", "Di dapur", "Ibu"],
+        a: 3,
+        msg: "Bagus! 'Ibu' adalah Subjek (pelaku) yang melakukan pekerjaan tersebut! 📖"
+    },
+    {
+        q: "📖 Pada kalimat 'Adit membaca buku cerita.', kata 'membaca' menempati unsur kalimat sebagai apa?",
+        o: ["Subjek", "Predikat (Kata Kerja)", "Objek", "Keterangan"],
+        a: 1,
+        msg: "Tepat! 'Membaca' adalah Predikat karena menyatakan suatu tindakan atau perbuatan kerja! 📖"
+    },
+    {
+        q: "📜 Karya sastra pendek yang ditulis dengan baris-baris indah, berirama, dan penuh kiasan perasaan disebut...",
+        o: ["Cerita pendek", "Puisi", "Berita", "Kamus"],
+        a: 1,
+        msg: "Indah sekali! Puisi dirangkai dengan pilihan kata yang penuh makna dan estetika! 📜"
+    },
+    {
+        q: "🗣️ Apa sebutan yang paling tepat untuk sebuah pembicaraan yang dilakukan oleh dua orang atau lebih?",
+        o: ["Monolog", "Dialog", "Pidato", "Membaca nyaring"],
+        a: 1,
+        msg: "Benar! Dialog artinya percakapan dua arah antar beberapa orang! 🗣️"
+    },
+    {
+        q: "📝 Apa makna atau arti dari peribahasa terkenal: 'Sedikit-sedikit, lama-lama menjadi bukit'?",
+        o: ["Jangan suka bermain", "Sabar dalam menabung membuat kita sukses", "Suka mendaki gunung", "Bekerja sangat cepat"],
+        a: 1,
+        msg: "Hebat! Peribahasa ini mengajarkan kita untuk rajin menabung meskipun dari jumlah yang kecil! 💰"
+    },
+    {
+        q: "💬 Singkatan resmi dari kata 'Dan Lain-Lain' yang sering kita temukan dalam tulisan bahasa Indonesia adalah...",
+        o: ["dsb.", "dll.", "dst.", " hlm."],
+        a: 1,
+        msg: "Tepat! Singkatan dari Dan Lain-Lain adalah 'dll.'! 💬"
+    },
+    {
+        q: "📚 Buku panduan yang memuat daftar kata beserta arti dan terjemahannya secara berurutan abjad dinamakan...",
+        o: ["Kamus", "Majalah", "Novel", "Komik"],
+        a: 0,
+        msg: "Betul! Kamus digunakan untuk mencari arti dari kata-kata yang sulit! 📚"
+    },
+    {
+        q: "🦊 Cerita fiksi dongeng yang tokoh-tokoh utamanya adalah hewan yang bisa berbicara seperti manusia disebut...",
+        o: ["Mitos", "Fabel", "Legenda", "Sejarah"],
+        a: 1,
+        msg: "Keren! Cerita fabel contohnya adalah kisah Kancil yang Cerdik! 🦊"
+    },
+
+    // === SAMPAH & LINGKUNGAN (71-85) ===
+    {
+        q: "🗑️ Jenis sampah yang berasal dari makhluk hidup, mudah membusuk, dan bisa diolah jadi pupuk disebut sampah...",
+        o: ["Anorganik", "Organik", "B3 (Berbahaya)", "Elektronik"],
+        a: 1,
+        msg: "Luar biasa! Sampah organik contohnya adalah sisa makanan dan dedaunan kering! 🍂"
+    },
+    {
+        q: "🍾 Manakah di antara benda berikut ini yang termasuk ke dalam kelompok sampah anorganik (sulit hancur alami)?",
+        o: ["Kulit pisang", "Botol plastik", "Daun kering", "Sisa sayuran"],
+        a: 1,
+        msg: "Tepat! Plastik membutuhkan waktu ratusan tahun agar bisa hancur di dalam tanah! 🍾"
+    },
+    {
+        q: "♻️ Apa arti dari istilah 'Reuse' dalam konsep pengelolaan sampah 3R peduli lingkungan?",
+        o: ["Mengurangi penggunaan barang sekali pakai", "Menggunakan kembali barang bekas layak pakai", "Mendaur ulang sampah menjadi barang baru", "Membakar sampah"],
+        a: 1,
+        msg: "Bagus! Reuse artinya menggunakan kembali, seperti memakai botol selai bekas menjadi tempat pensil! ♻️"
+    },
+    {
+        q: "♻️ Apa contoh tindakan nyata dari penerapan prinsip 'Reduce' (Mengurangi sampah) dalam kehidupan sehari-hari?",
+        o: ["Membawa botol minum sendiri dari rumah", "Membeli mainan plastik baru setiap hari", "Membuang sampah ke sungai", "Membakar daun kering"],
+        a: 0,
+        msg: "Benar! Membawa botol minum sendiri mengurangi penggunaan botol plastik sekali pakai! 🥤"
+    },
+    {
+        q: "🌳 Apa dampak buruk yang akan terjadi jika warga sering membuang sampah sembarangan ke dalam saluran sungai?",
+        o: ["Air sungai jadi jernih", "Terjadi bencana banjir saat hujan", "Ikan tumbuh besar", "Sungai jadi dalam"],
+        a: 1,
+        msg: "Betul! Sampah yang menyumbat aliran air sungai akan memicu datangnya banjir! 🌧️"
+    },
+    {
+        q: "🪵 Sampah organik yang dikumpulkan dan dibiarkan mengalami pembusukan alami secara teratur akan berubah menjadi...",
+        o: ["Plastik baru", "Pupuk Kompos alami", "Batu baterai", "Gas beracun"],
+        a: 1,
+        msg: "Hebat! Pupuk kompos sangat subur dan baik untuk menutrisi tanaman di kebun! 🌳"
+    },
+    {
+        q: "🔋 Sampah seperti batu baterai bekas, lampu rusak, dan cairan kimia berbahaya termasuk kelompok sampah...",
+        o: ["Organik", "Anorganik", "B3 (Bahan Berbahaya & Beracun)", "Sampah kertas"],
+        a: 2,
+        msg: "Benar! Sampah B3 harus dipisahkan secara khusus agar tidak mencemari lingkungan dan membahayakan kesehatan! 🔋"
+    },
+    {
+        q: "🌳 Kegiatan penanaman kembali hutan yang gundul agar bumi menjadi hijau dan asri kembali disebut...",
+        o: ["Erosi", "Reboisasi", "Irigasi", "Urbanisasi"],
+        a: 1,
+        msg: "Top! Reboisasi mengembalikan fungsi hutan sebagai penyerap air dan penghasil oksigen! 🌳"
+    },
+    {
+        q: "🗑️ Berwarna apakah tong sampah yang khusus disediakan untuk menampung jenis sampah organik?",
+        o: ["Hijau", "Kuning", "Merah", "Biru"],
+        a: 0,
+        msg: "Tepat! Tong sampah hijau biasanya digunakan untuk tempat sampah organik seperti daun dan sisa makanan! 🟩"
+    },
+    {
+        q: "🗑️ Tong sampah berwarna kuning di tempat umum biasanya digunakan khusus untuk membuang sampah jenis apa?",
+        o: ["Sisa makanan", "Plastik, kaca, dan logam (Anorganik)", "Baterai bekas", "Kertas kertas bekas"],
+        a: 1,
+        msg: "Benar! Kuning disiapkan untuk mempermudah pemilahan sampah anorganik yang bisa didaur ulang! 🟨"
+    },
+    {
+        q: "💨 Fenomena pencemaran udara bersih akibat asap kendaraan pabrik dan kebakaran hutan disebut sebagai...",
+        o: ["Polusi udara", "Erosi tanah", "Banjir bandang", "Longsor"],
+        a: 0,
+        msg: "Tepat! Polusi udara mengganggu pernapasan dan membuat langit terlihat berkabut kotor! 😷"
+    },
+    {
+        q: "🌊 Mengapa kita dilarang keras untuk membuang limbah sampah plastik ke dalam wilayah perairan laut?",
+        o: ["Laut akan menjadi makin luas", "Bisa termakan oleh hewan laut dan merusak ekosistem", "Air laut akan berubah jadi tawar", "Ikan akan melompat ke darat"],
+        a: 1,
+        msg: "Sedih sekali, penyu dan ikan sering mengira plastik sebagai makanan sehingga mereka bisa sakit dan mati! 🐢"
+    },
+    {
+        q: "🛒 Apa alternatif pengganti kantong plastik sekali pakai yang paling ramah lingkungan saat kita berbelanja?",
+        o: ["Kantong plastik hitam baru", "Tas kain belanja yang bisa dipakai berulang kali (tote bag)", "Kardus basah", "Kertas tisu bersambung"],
+        a: 1,
+        msg: "Benar! Tas kain belanja jauh lebih awet dan mengurangi penumpukan gunungan sampah plastik! 🛒"
+    },
+    {
+        q: "🐠 Menjaga kebersihan dan kelestarian alam sekitar sekitar merupakan kewajiban dari siapa?",
+        o: ["Petugas kebersihan saja", "Bapak dan Ibu Guru saja", "Seluruh warga masyarakat tanpa terkecuali", "Pemerintah saja"],
+        a: 2,
+        msg: "Luar biasa! Bumi ini adalah rumah kita bersama, jadi menjaga kelestariannya adalah tugas bersama! 🌍"
+    },
+    {
+        q: "🐟 Apa fungsi penting dari pohon-pohon bakau (mangrove) yang ditanam berjejer di sepanjang garis pantai?",
+        o: ["Sebagai tempat berenang", "Mencegah pengikisan pantai oleh ombak laut (Abrasi)", "Membuat air laut jadi manis", "Menahan kapal nelayan"],
+        a: 1,
+        msg: "Hebat! Akar kokoh pohon bakau berfungsi menahan gempuran ombak agar daratan pantai tidak terkikis! 🌊"
+    },
+
+    // === PENGETAHUAN UMUM & BUDAYA (86-100) ===
+    {
+        q: "🇮🇩 Apa nama lagu kebangsaan resmi dari negara Republik Indonesia?",
+        o: ["Hari Merdeka", "Indonesia Raya", "Garuda Pancasila", "Satu Nusa Satu Bangsa"],
+        a: 1,
+        msg: "Merdeka! Lagu kebangsaan kita adalah Indonesia Raya ciptaan W.R. Supratman! 🇮🇩"
+    },
+    {
+        q: "🦅 Apakah lambang negara resmi dari negara kesatuan Republik Indonesia?",
+        o: ["Burung Garuda Pancasila", "Bendera Merah Putih", "Keris Pusaka", "Monumen Nasional"],
+        a: 0,
+        msg: "Benar! Di dada Burung Garuda terdapat perisai yang memuat simbol dari sila-sila Pancasila! 🦅"
+    },
+    {
+        q: "🇮🇩 Warna bendera negara Indonesia adalah Merah dan Putih. Apakah arti filosofis dari warna 'Merah' tersebut?",
+        o: ["Suci", "Berani", "Sabar", "Makmur"],
+        a: 1,
+        msg: "Tepat! Merah berarti berani, dan Putih bermakna suci! 🇮🇩"
+    },
+    {
+        q: "🗺️ Apa nama ibu kota negara kesatuan Republik Indonesia saat ini?",
+        o: ["Surabaya", "Bandung", "Jakarta", "Nusantara"],
+        a: 3,
+        msg: "Hebat! Ibu kota baru Indonesia terletak di Kalimantan Timur, bernama Nusantara (IKN)! 🏛️"
+    },
+    {
+        q: "🇲🇨 Kapan seluruh rakyat Indonesia memperingati hari kemerdekaan bangsa Indonesia setiap tahunnya?",
+        o: ["21 April", "17 Agustus", "28 Oktober", "10 November"],
+        a: 1,
+        msg: "Benar! Indonesia memproklamasikan kemerdekaan pada tanggal 17 Agustus 1945! 🇲🇨"
+    },
+    {
+        q: "🥖 Alat musik tradisional angklung yang dimainkan dengan cara digoyang terbuat dari bahan apa?",
+        o: ["Kayu jati", "Bambu", "Besi baja", "Kulit hewan"],
+        a: 1,
+        msg: "Tepat! Angklung adalah warisan budaya asli Indonesia yang terbuat dari pipa-pipa bambu! 🎵"
+    },
+    {
+        q: "🗺️ Rumah adat tradisional berbentuk panggung dengan atap melengkung tinggi menyerupai tanduk kerbau bernama Rumah Gadang berasal dari daerah...",
+        o: ["Sumatera Barat", "Jawa Barat", "Papua", "Sulawesi Selatan"],
+        a: 0,
+        msg: "Rancak bana! Rumah Gadang adalah rumah adat suku Minangkabau di Sumatera Barat! 🗺️"
+    },
+    {
+        q: "🥋 Seni bela diri tradisional asli warisan budaya luhur bangsa Indonesia dinamakan...",
+        o: ["Karate", "Taekwondo", "Pencak Silat", "Kungfu"],
+        a: 2,
+        msg: "Betul! Pencak Silat adalah olahraga bela diri asli yang berasal dari nusantara! 🥋"
+    },
+    {
+        q: "🇮🇩 Siapakah sosok Presiden pertama Republik Indonesia yang juga dikenal sebagai Bapak Proklamator?",
+        o: ["Drs. Mohammad Hatta", "Ir. Soekarno", "Soeharto", "Joko Widodo"],
+        a: 1,
+        msg: "Hebat! Bung Karno adalah presiden pertama yang membacakan teks proklamasi kemerdekaan! 🇮🇩"
+    },
+    {
+        q: "🪁 Apa sebutan populer untuk garis khayal yang membelah bumi menjadi dua bagian (utara dan selatan) tepat di tengah-tengah?",
+        o: ["Garis Khatulistiwa (Ekuator)", "Garis Bujur", "Garis Kutub", "Garis Batas Negara"],
+        a: 0,
+        msg: "Tepat! Indonesia adalah salah satu negara yang dilewati oleh garis Khatulistiwa! 🌍"
+    },
+    {
+        q: "🦖 Di provinsi manakah terletak pulau habitat asli hewan purba Komodo yang dilindungi di Indonesia?",
+        o: ["Bali", "Nusa Tenggara Timur (NTT)", "Jawa Timur", "Maluku"],
+        a: 1,
+        msg: "Benar! Komodo adalah kadal terbesar di dunia yang hidup dilindungi di Taman Nasional Komodo, NTT! 🦖"
+    },
+    {
+        q: "🕯️ Kain tradisional bercorak indah yang dibuat khusus menggunakan lilin malam dengan canting khas Indonesia dinamakan...",
+        o: ["Kain Sutra", "Kain Batik", "Kain Wol", "Kain Katun"],
+        a: 1,
+        msg: "Bagus! Batik telah diakui oleh dunia dunia sebagai warisan budaya luhur asli Indonesia! 🇮🇩"
+    },
+    {
+        q: "🕌 Apa nama tempat ibadah suci resmi bagi para pemeluk agama Islam?",
+        o: ["Gereja", "Pura", "Masjid", "Vihara"],
+        a: 2,
+        msg: "Betul! Masjid adalah tempat ibadah umat Islam, seperti Masjid Istiqlal! 🕌"
+    },
+    {
+        q: "🗺️ Apa semboyan persatuan negara Indonesia yang tertulis pada pita cengkeraman kaki Burung Garuda?",
+        o: ["Bhinneka Tunggal Ika", "Tut Wuri Handayani", "Ing Ngarso Sung Tulodo", "Habis Gelap Terbitlah Terang"],
+        a: 0,
+        msg: "Luar biasa! Bhinneka Tunggal Ika artinya: Berbeda-beda tetapi tetap satu jua! 🇮🇩"
+    },
+    {
+        q: "🧠 Siapakah pahlawan wanita Indonesia yang dikenal mempelopori perjuangan emansipasi hak belajar bagi kaum perempuan?",
+        o: ["Cut Nyak Dien", "R.A. Kartini", "Dewi Sartika", "Fatmawati"],
+        a: 1,
+        msg: "Sempurna! Setiap tanggal 21 April kita memperingati Hari Kartini untuk mengenang jasanya! 📜✨"
+    }
+];
+
+let indexSekarang = 0;
+let skor = 0;
+        // 3. FUNGSI UNTUK MENAMPILKAN SOAL
+        function tampilkanSoal() {
+            const soalActive = bankSoal[indexSekarang];
+            
+            // Set infomasi teks soal & skor
+            document.getElementById('infoSoal').innerText = `Soal ${indexSekarang + 1} dari ${bankSoal.length}`;
+            document.getElementById('teksPertanyaan').innerText = soalActive.q;
+            
+            // Atur lebar progress bar atas secara bertahap
+            let hitungProgres = (indexSekarang / bankSoal.length) * 100;
+            document.getElementById('progressBar').style.width = `${hitungProgres}%`;
+            
+            // Kosongkan opsi lama dan hilangkan box feedback
+            const areaOpsi = document.getElementById('areaOpsi');
+            areaOpsi.innerHTML = "";
+            document.getElementById('feedbackBox').classList.add('sembunyi');
+
+            // Cetak tombol opsi jawaban dinamis dari data script
+            soalActive.o.forEach((opsiTeks, i) => {
+                const tombol = document.createElement('button');
+                tombol.innerText = opsiTeks;
+                tombol.className = 'btn-opsi';
+                tombol.onclick = () => cekJawaban(i);
+                areaOpsi.appendChild(tombol);
+            });
+        }
+
+        // 4. FUNGSI MEMERIKSA JAWABAN BENAR / SALAH
+        function cekJawaban(pilihanUser) {
+            const soalActive = bankSoal[indexSekarang];
+            const semuaTombol = document.querySelectorAll('.btn-opsi');
+            
+            // Kunci semua tombol agar anak tidak klik berkali-kali
+            semuaTombol.forEach(btn => btn.disabled = true);
+
+            const feedbackBox = document.getElementById('feedbackBox');
+            const teksFeedback = document.getElementById('teksFeedback');
+
+            if(pilihanUser === soalActive.a) {
+                // Jika jawaban Benar
+                semuaTombol[pilihanUser].classList.add('benar');
+                skor += (100 / bankSoal.length);
+                teksFeedback.innerText = soalActive.msg;
+                feedbackBox.style.backgroundColor = "#ECFDF5";
+                teksFeedback.style.color = "#047857";
+            } else {
+                // Jika jawaban Salah
+                semuaTombol[pilihanUser].classList.add('salah');
+                semuaTombol[soalActive.a].classList.add('benar'); // Tunjukkan kunci jawaban
+                teksFeedback.innerText = "Hmm, tebakanmu belum pas. Coba lagi di nomor berikutnya ya! 💪";
+                feedbackBox.style.backgroundColor = "#FEF2F2";
+                teksFeedback.style.color = "#B91C1C";
+            }
+
+            document.getElementById('skorLive').innerText = Math.round(skor);
+            feedbackBox.classList.remove('sembunyi');
+        }
+
+        // 5. FUNGSI TOMBOL LANJUT
+        function soalBerikutnya() {
+            indexSekarang++;
+            if(indexSekarang < bankSoal.length) {
+                tampilkanSoal();
+            } else {
+                document.getElementById('progressBar').style.width = "100%";
+                tampilkanHasilAkhir();
+            }
+        }
+
+        // 6. MENAMPILKAN HASIL AKHIR SKOR NILAI
+        function tampilkanHasilAkhir() {
+            document.getElementById('kuisContainer').classList.add('sembunyi');
+            document.getElementById('hasilContainer').classList.remove('sembunyi');
+            
+            let skorBulat = Math.round(skor);
+            document.getElementById('skorAkhir').innerText = skorBulat;
+            
+            const pesanSanjungan = document.getElementById('pesanSanjungan');
+            if(skorBulat === 100) {
+                pesanSanjungan.innerText = "Wow Sempurna! Kamu anak hebat berwawasan luas! 🏆✨";
+            } else if(skorBulat >= 60) {
+                pesanSanjungan.innerText = "Hebat sekali! Kerjamu bagus, tingkatkan lagi ya! 🎈🎉";
+            } else {
+                pesanSanjungan.innerText = "Jangan berkecil hati, mari ulangi dan belajar bersama lagi! 📚💪";
+            }
+        }
+
+        // 7. FUNGSI MENGULANG GAME
+        function ulangKuis() {
+            indexSekarang = 0;
+            skor = 0;
+            document.getElementById('skorLive').innerText = "0";
+            document.getElementById('hasilContainer').classList.add('sembunyi');
+            document.getElementById('kuisContainer').classList.remove('sembunyi');
+            tampilkanSoal();
+        }
+
+        // Jalankan kuis otomatis saat file dibuka di browser
+        window.onload = tampilkanSoal;
+    </script>
+</body>
+</html>

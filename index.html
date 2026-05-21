@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelas Kreatif - Edukasi Seru Anak Sekolah</title>
+    <!-- Menghubungkan ke file CSS eksternal -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Google untuk tampilan profesional dan ramah anak -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- HEADER & NAVIGASI -->
+    <header>
+        <div class="navbar container">
+            <div class="logo">Kelas<span>Kreatif</span></div>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home" class="active">Beranda</a></li>
+                    <li><a href="materi.html">Materi</a></li>
+                    <li><a href="kuis.html">Kuis Seru</a></li>
+                    <li><a href="geme.html">game Ular</a></li>
+                    <li><a href="tentang.html">Tentang</a></li>
+
+                </ul>
+            </nav>
+            <div class="menu-toggle" id="mobileMenu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION (HALAMAN UTAMA) -->
+    <section id="home" class="hero">
+        <div class="hero-content container">
+            <div class="hero-text">
+                <h1>Belajar Lebih Seru & Interaktif!</h1>
+                <p>Temukan dunia pengetahuan baru dengan metode belajar yang asyik, penuh warna, dan tidak membosankan untuk anak-anak cerdas.</p>
+                <a href="#materi" class="btn-primary">Mulai Belajar Yuk!</a>
+            </div>
+            <div class="hero-image">
+                <!-- Ilustrasi Edukasi (Menggunakan SVG placeholder yang clean) -->
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="80" fill="#FFD166" />
+                    <rect x="60" y="60" width="80" height="80" rx="10" fill="#06D6A0" />
+                    <polygon points="100,75 75,115 125,115" fill="#118AB2" />
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- MATERI BELAJAR SECTION -->
+    <section id="materi" class="materi container">
+        <div class="section-title">
+            <h2>Pilih Materi Belajar</h2>
+            <p>Materi pelajaran sekolah yang dikemas secara visual dan mudah dipahami.</p>
+        </div>
+        <div class="grid-materi">
+            <!-- Kartu Materi 1 -->
+            <div class="card-materi m-sains">
+                <div class="card-icon">🔬</div>
+                <h3>Sains & Alam</h3>
+                <p>Jelajahi rahasia alam semesta, tubuh manusia, dan eksperimen seru disekitarmu.</p>
+                <a href="#" class="btn-card">Buka Materi</a>
+            </div>
+            <!-- Kartu Materi 2 -->
+            <div class="card-materi m-matematika">
+                <div class="card-icon">🧮</div>
+                <h3>Matematika Asyik</h3>
+                <p>Belajar berhitung, angka, dan logika matematika dengan metode yang sangat mudah.</p>
+                <a href="#" class="btn-card">Buka Materi</a>
+            </div>
+            <!-- Kartu Materi 3 -->
+            <div class="card-materi m-bahasa">
+                <div class="card-icon">📚</div>
+                <h3>Bahasa & Cerita</h3>
+                <p>Asah kemampuan membaca, menulis, dan merangkai cerita kreatif yang seru.</p>
+                <a href="#" class="btn-card">Buka Materi</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERAKTIF MINI KUIS -->
+    <section id="game" class="kuis-section">
+        <div class="container">
+            <div class="kuis-box">
+                <h2>🧠 Tantangan Kuis Kilat!</h2>
+                <p id="pertanyaan">Berapakah hasil dari 5 + 3?</p>
+                <div class="kuis-opsi">
+                    <button class="btn-opsi" onclick="cekJawaban(false)">6</button>
+                    <button class="btn-opsi" onclick="cekJawaban(true)">8</button>
+                    <button class="btn-opsi" onclick="cekJawaban(false)">10</button>
+                </div>
+                <p id="feedback" class="feedback-text"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 BOAS SABABANG (251134146). Dibuat dengan penuh semangat untuk generasi cerdas.</p>
+    </footer>
+
+    <!-- Menghubungkan ke file JS eksternal -->
+    <script src="script.js"></script>
+</body>
+</html>

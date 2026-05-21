@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Mahasiswa - Boas Sababang</title>
+    <style>
+        /* ==================== GLOBAL STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Latar belakang bertema kosmik/edukasi yang elegan */
+            background: radial-gradient(circle at top right, #2c3e50, #000000);
+            overflow: hidden;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Dekorasi Lingkaran Abstrak di Latar Belakang */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 1;
+            opacity: 0.5;
+        }
+        body::before {
+            width: 300px;
+            height: 300px;
+            background: #9b59b6;
+            top: 10%;
+            left: 15%;
+        }
+        body::after {
+            width: 350px;
+            height: 350px;
+            background: #3498db;
+            bottom: 10%;
+            right: 15%;
+        }
+
+        /* ==================== KARTU PROFIL (GLASSMORPHISM) ==================== */
+        .profile-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 24px;
+            text-align: center;
+            color: #ffffff;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(52, 152, 219, 0.2);
+        }
+
+        /* ==================== FOTO PROFIL ==================== */
+        .avatar-container {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 25px;
+        }
+
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #3498db;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+            background: #2c3e50;
+        }
+
+        /* Indikator Online/Aktif */
+        .status-dot {
+            position: absolute;
+            bottom: 5px;
+            right: 8px;
+            width: 18px;
+            height: 18px;
+            background-color: #2ecc71;
+            border: 3px solid #1a1a1a;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #2ecc71;
+        }
+
+        /* ==================== INFORMASI TEKS ==================== */
+        .profile-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .profile-nim {
+            font-size: 0.95rem;
+            color: #3498db;
+            font-weight: 600;
+            background: rgba(52, 152, 219, 0.15);
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 15px 0;
+        }
+
+        .profile-detail {
+            font-size: 1rem;
+            color: #e0e0e0;
+            line-height: 1.5;
+        }
+
+        .university-tag {
+            color: #f1c40f;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* ==================== FITUR INTERAKTIF (LIKE & RATING) ==================== */
+        .interactive-section {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* Tombol Like */
+        .like-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-like {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-like:hover {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: #e74c3c;
+            transform: scale(1.05);
+        }
+
+        /* Kelas aktif saat tombol like diklik */
+        .btn-like.liked {
+            background: #e74c3c;
+            border-color: #e74c3c;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+            animation: pop 0.3s ease;
+        }
+
+        .like-count {
+            font-size: 0.95rem;
+            color: #b3b3b3;
+        }
+
+        /* Sistem Rating Bintang Lima */
+        .rating-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .rating-text {
+            font-size: 0.85rem;
+            color: #b3b3b3;
+        }
+
+        .stars {
+            display: flex;
+            gap: 5px;
+        }
+
+        .star {
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .star:hover {
+            transform: scale(1.2);
+        }
+
+        /* Warna bintang ketika aktif atau di-hover */
+        .star.active, .star.hover {
+            color: #f1c40f;
+            text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+        }
+
+        /* Animation */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- KARTU PROFIL -->
+    <div class="profile-card">
+        <!-- Bagian Foto Profil -->
+        <div class="avatar-container">
+            <!-- Kamu bisa mengganti URL src di bawah ini dengan link foto aslimu nanti -->
+            <img class="profile-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop" alt="Foto Boas Sababang">
+            <div class="status-dot"></div>
+        </div>
+
+        <!-- Bagian Identitas -->
+        <h2 class="profile-name">Boas Sababang</h2>
+        <span class="profile-nim">NIM. 251134146</span>
+        
+        <div class="divider"></div>
+
+        <div class="profile-detail">
+            <p style="font-weight: 300;">Mahasiswa </p>
+            <p style="font-weight: 500; font-size: 1.1rem; margin-top: 2px; color: #3498db;">Pendidikan Guru Sekolah Dasar</p>
+            <p class="university-tag">Universitas Sanata Dharma</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SEKSI INTERAKTIF -->
+        <div class="interactive-section">
+            <!-- Tombol Like -->
+            <div class="like-container">
+                <button class="btn-like" id="likeBtn" onclick="toggleLike()">
+                    <span id="heartIcon">❤️</span> Menyukai
+                </button>
+                <span class="like-count" id="likeCounter">0 Suka</span>
+            </div>
+
+            <!-- Rating Bintang Lima -->
+            <div class="rating-container">
+                <span class="rating-text" id="ratingStatus">Beri nilai profil ini:</span>
+                <div class="stars" id="starContainer">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT INTERAKTIF ==================== -->
+    <script>
+        // --- LOGIKA TOMBOL LIKE ---
+        let isLiked = false;
+        let count = 0;
+
+        function toggleLike() {
+            const likeBtn = document.getElementById('likeBtn');
+            const likeCounter = document.getElementById('likeCounter');
+            
+            isLiked = !isLiked;
+            
+            if(isLiked) {
+                count++;
+                likeBtn.classList.add('liked');
+            } else {
+                count--;
+                likeBtn.classList.remove('liked');
+            }
+            
+            likeCounter.innerText = `${count} Suka`;
+        }
+
+        // --- LOGIKA BINTANG LIMA INTERAKTIF ---
+        const stars = document.querySelectorAll('.star');
+        const ratingStatus = document.getElementById('ratingStatus');
+        let currentRating = 0;
+
+        stars.forEach((star) => {
+            // Ketika kursor masuk ke area bintang (Hover effect)
+            star.addEventListener('mouseover', function() {
+                const hoverValue = this.getAttribute('data-value');
+                highlightStars(hoverValue);
+            });
+
+            // Ketika kursor meninggalkan area bintang
+            star.addEventListener('mouseout', function() {
+                highlightStars(currentRating);
+            });
+
+            // Ketika bintang diklik
+            star.addEventListener('click', function() {
+                currentRating = this.getAttribute('data-value');
+                highlightStars(currentRating);
+                ratingStatus.innerText = `Terima kasih! Anda memberi ${currentRating} bintang.`;
+                ratingStatus.style.color = '#f1c40f';
+            });
+        });
+
+        // Fungsi bantu untuk menyalakan/mematikan warna bintang
+        function highlightStars(value) {
+            stars.forEach(star => {
+                if (parseInt(star.getAttribute('data-value')) <= value) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

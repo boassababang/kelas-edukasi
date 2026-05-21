@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ular Tangga Rangka Tubuh</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+        }
+
+        body {
+            background: #E0F2F1;
+            color: #2F3E46;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00897B, #4DB6AC);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 0 #004D40;
+            border: 3px solid #2F3E46;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            text-shadow: 2px 2px 0px #2F3E46;
+        }
+
+        .game-container {
+            display: flex;
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* PAPAN PERMAINAN */
+        .board-wrapper {
+            position: relative;
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 20px;
+            border: 5px solid #2F3E46;
+            box-shadow: 0 10px 0px rgba(0,0,0,0.1);
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(5, 75px);
+            grid-template-rows: repeat(5, 75px);
+            gap: 5px;
+            background: #f0f0f0;
+        }
+
+        .cell {
+            background: #e0e0e0;
+            border-radius: 8px;
+            border: 2px solid #95a5a6;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 5px;
+            font-weight: bold;
+            position: relative;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Warna Zona Anatomi */
+        .zone-head { background-color: #FFCDD2; border-color: #E57373; } /* Tengkorak */
+        .zone-chest { background-color: #BBDEFB; border-color: #64B5F6; } /* Rusuk/Dada */
+        .zone-spine { background-color: #FFE082; border-color: #FFB74D; } /* Tulang Belakang */
+        .zone-pelvis { background-color: #E1BEE7; border-color: #BA68C8; } /* Pinggul */
+        .zone-legs { background-color: #C8E6C9; border-color: #81C784; } /* Kaki */
+
+        .cell-number {
+            align-self: flex-start;
+            color: #555;
+        }
+
+        .cell-label {
+            font-size: 0.65rem;
+            text-align: center;
+            color: #333;
+            line-height: 1.1;
+        }
+
+        /* PIN PEMAIN */
+        .player-token {
+            width: 24px;
+            height: 24px;
+            background-color: #FF3D00;
+            border: 2px solid white;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            z-index: 10;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* KONTROL & DADU */
+        .controls {
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            background: white;
+            border: 4px solid #2F3E46;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 0px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-card {
+            background: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .dice-area {
+            text-align: center;
+            padding: 20px;
+            background: #F5F5F5;
+            border-radius: 15px;
+            border: 2px dashed #757575;
+        }
+
+        .dice {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border: 3px solid #2F3E46;
+            border-radius: 12px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 4px 0 #2F3E46;
+            margin-bottom: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .dice.rolling {
+            animation: spin 0.3s infinite linear;
+        }
+
+        .btn-roll {
+            background: #FF6B6B;
+            color: white;
+            border: 2px solid #2F3E46;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #2F3E46;
+            width: 100%;
+        }
+
+        .btn-roll:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #2F3E46;
+        }
+
+        /* PANEL KUIS POPUP */
+        .quiz-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .quiz-card {
+            background: white;
+            border: 4px solid #2F3E46;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 0px rgba(0,0,0,0.2);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .quiz-card h3 {
+            color: #00897B;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .opt-btn {
+            background: #F5F5F5;
+            border: 2px solid #2F3E46;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .opt-btn:hover { background: #E0F2F1; }
+
+        /* ANIMASI */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🦴 Ular Tangga Petualangan Rangka 🦴</h1>
+        <p>Capai Puncak Tengkorak (Petak 25) untuk Memenangkan Permainan!</p>
+    </header>
+
+    <div class="game-container">
+        <!-- PAPAN ULAR TANGGA -->
+        <div class="board-wrapper">
+            <div class="board" id="game-board">
+                <!-- Grid Papan diisi via JavaScript -->
+            </div>
+            <!-- Pin Pemain -->
+            <div class="player-token" id="player"></div>
+        </div>
+
+        <!-- PANEL KONTROL -->
+        <div class="controls">
+            <div class="info-card">
+                <strong>📍 Posisi Kamu:</strong> Petak <span id="pos-val">1</span><br>
+                <span id="zone-val" style="font-weight: bold; color: #00796B;">Zona: Tulang Kaki</span>
+            </div>
+
+            <div class="dice-area">
+                <div class="dice" id="dice-view">1</div>
+                <button class="btn-roll" onclick="kocokDadu()">🎲 Lempar Dadu!</button>
+            </div>
+
+            <div style="font-size: 0.85rem; color: #555; background: #FFFDE7; padding: 10px; border-radius: 8px; border: 1px solid #D4AF37;">
+                <strong>💡 Aturan Khusus Anatomi:</strong><br>
+                * 📈 <strong>Tangga Kalsium (Petak 4 & 12):</strong> Tulangmu kuat, lompat ke atas!<br>
+                * 📉 <strong>Ular Retak/Bungkuk (Petak 14 & 22):</strong> Aduh cedera, meluncur turun!<br>
+                * ❓ <strong>Petak Tanya (Kuning):</strong> Jawab tantangan kuis anatomi!
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP KUIS INTERAKTIF -->
+    <div class="quiz-overlay" id="quiz-modal">
+        <div class="quiz-card">
+            <h3>🧠 Tantangan Detektif Tulang!</h3>
+            <p id="quiz-question">Pertanyaan kuis akan muncul di sini...</p>
+            <div class="quiz-options" id="quiz-answers">
+                <!-- Tombol pilihan jawaban -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Konfigurasi Papan Permainan (Boustrophedon Grid 5x5)
+        // Pemetaan nomor petak ke koordinat visual Grid urutan ular tangga (zigzag dari bawah)
+        const cellMapping = {
+            21: {r:0, c:0}, 22: {r:0, c:1}, 23: {r:0, c:2}, 24: {r:0, c:3}, 25: {r:0, c:4},
+            20: {r:1, c:4}, 19: {r:1, c:3}, 18: {r:1, c:2}, 17: {r:1, c:1}, 16: {r:1, c:0},
+            11: {r:2, c:0}, 12: {r:2, c:1}, 13: {r:2, c:2}, 14: {r:2, c:3}, 15: {r:2, c:4},
+            10: {r:3, c:4}, 9:  {r:3, c:3}, 8:  {r:3, c:2}, 7:  {r:3, c:1}, 6:  {r:3, c:0},
+            1:  {r:4, c:0}, 2:  {r:4, c:1}, 3:  {r:4, c:2}, 4:  {r:4, c:3}, 5:  {r:4, c:4}
+        };
+
+        // Data Detil Properti Tiap Petak
+        const cellsData = {
+            1: { name: "Mulai (Kaki)", zone: "zone-legs" },
+            2: { name: "Tulang Kering", zone: "zone-legs" },
+            3: { name: "Kuis ❓", zone: "zone-spine" }, // Kuis
+            4: { name: "Tangga Kalsium 📈", zone: "zone-legs" }, // Tangga ke 9
+            5: { name: "Tempurung Lutut", zone: "zone-legs" },
+            6: { name: "Tulang Paha", zone: "zone-legs" },
+            7: { name: "Tulang Pinggul", zone: "zone-pelvis" },
+            8: { name: "Kuis ❓", zone: "zone-spine" }, // Kuis
+            9: { name: "Sendi Sehat", zone: "zone-pelvis" },
+            10: { name: "Tulang Belakang", zone: "zone-spine" },
+            11: { name: "Sumsum Tulang", zone: "zone-spine" },
+            12: { name: "Susu Sehat 📈", zone: "zone-spine" }, // Tangga ke 18
+            13: { name: "Kuis ❓", zone: "zone-spine" }, // Kuis
+            14: { name: "Posisi Bungkuk 📉", zone: "zone-spine" }, // Ular ke 6
+            15: { name: "Tulang Rusuk", zone: "zone-chest" },
+            16: { name: "Tulang Dada", zone: "zone-chest" },
+            17: { name: "Pelindung Jantung", zone: "zone-chest" },
+            18: { name: "Kuis ❓", zone: "zone-spine" }, // Kuis
+            19: { name: "Tulang Selangka", zone: "zone-chest" },
+            20: { name: "Tulang Leher", zone: "zone-head" },
+            21: { name: "Tulang Rahang", zone: "zone-head" },
+            22: { name: "Tulang Retak 📉", zone: "zone-head" }, // Ular ke 11
+            23: { name: "Kuis Final ❓", zone: "zone-spine" }, // Kuis
+            24: { name: "Pelindung Otak", zone: "zone-head" },
+            25: { name: "Tengkorak (FINISH) 🏆", zone: "zone-head" }
+        };
+
+        // Database Soal Kuis Rangka Tubuh
+        const kuisData = [
+            { q: "Apa fungsi utama dari tulang tengkorak kita?", a: ["Melindungi Otak", "Membantu Mencerna", "Pompa Darah"], c: 0 },
+            { q: "Bagian tulang yang berfungsi memagari organ jantung dan paru-paru adalah...", a: ["Tulang Paha", "Tulang Rusuk", "Tulang Leher"], c: 1 },
+            { q: "Zat makanan apa yang sangat bagus untuk menjaga kepadatan kekuatan tulang?", a: ["Zat Besi", "Kalsium & Vitamin D", "Glukosa Murni"], c: 1 },
+            { q: "Di manakah letak tulang terpanjang dan terkuat pada tubuh manusia?", a: ["Tulang Belakang", "Tulang Paha (Femur)", "Tulang Lengan"], c: 1 },
+            { q: "Apa yang terjadi jika tubuh manusia tidak memiliki sistem rangka sama sekali?", a: ["Tubuh lemas seperti jeli", "Tubuh makin cepat lari", "Tidak terjadi apa-apa"], c: 0 }
+        ];
+
+        let playerPosition = 1;
+        let isRolling = false;
+
+        // Inisialisasi Pengecatan Papan Grid
+        function buildBoardVisual() {
+            const boardEl = document.getElementById('game-board');
+            boardEl.innerHTML = "";
+            
+            // Susun elemen berurutan berdasarkan baris grid (0 sampai 4)
+            // Menggunakan struktur matrix penataan agar grid tidak terbalik secara visual html
+            const gridLayout = [
+                [21, 22, 23, 24, 25],
+                [20, 19, 18, 17, 16],
+                [11, 12, 13, 14, 15],
+                [10, 9,  8,  7,  6],
+                [1,  2,  3,  4,  5]
+            ];
+
+            for (let r = 0; r < 5; r++) {
+                for (let c = 0; c < 5; c++) {
+                    const num = gridLayout[r][c];
+                    const data = cellsData[num];
+                    
+                    const cell = document.createElement('div');
+                    cell.className = `cell ${data.zone}`;
+                    cell.id = `cell-${num}`;
+                    cell.innerHTML = `
+                        <div class="cell-number">${num}</div>
+                        <div class="cell-label">${data.name}</div>
+                    `;
+                    boardEl.appendChild(cell);
+                }
+            }
+            updatePlayerTokenPosition();
+        }
+
+        // Sinkronisasi Letak Pin Pemain Di Atas Grid Koordinat
+        function updatePlayerTokenPosition() {
+            const token = document.getElementById('player');
+            const targetCell = document.getElementById(`cell-${playerPosition}`);
+            
+            if (targetCell) {
+                // Taruh pin di dalam elemen kotak tujuan
+                targetCell.appendChild(token);
+            }
+
+            // Update Panel Keterangan Status Karakter
+            document.getElementById('pos-val').innerText = playerPosition;
+            
+            let zonaTeks = "Tulang Kaki";
+            if(playerPosition >= 7 && playerPosition <= 9) zonaTeks = "Tulang Pinggul (Pelvis)";
+            else if(playerPosition >= 10 && playerPosition <= 14) zonaTeks = "Poros Tulang Belakang";
+            else if(playerPosition >= 15 && playerPosition <= 19) zonaTeks = "Sangkar Ruang Rusuk/Dada";
+            else if(playerPosition >= 20) zonaTeks = "Bagian Kepala / Tengkorak Hebat";
+            
+            document.getElementById('zone-val').innerText = `Zona: ${zonaTeks}`;
+        }
+
+        // Siklus Lempar Dadu Animasi
+        function kocokDadu() {
+            if(isRolling) return;
+            isRolling = true;
+            
+            const diceEl = document.getElementById('dice-view');
+            diceEl.classList.add('rolling');
+            
+            let counter = 0;
+            const interval = setInterval(() => {
+                diceEl.innerText = Math.floor(Math.random() * 6) + 1;
+                counter++;
+                if(counter > 6) {
+                    clearInterval(interval);
+                    diceEl.classList.remove('rolling');
+                    
+                    const hasilDadu = Math.floor(Math.random() * 6) + 1;
+                    diceEl.innerText = hasilDadu;
+                    
+                    jalankanPemain(hasilDadu);
+                    isRolling = false;
+                }
+            }, 80);
+        }
+
+        // Aturan Logika Pergerakan Posisi Ular Tangga
+        function jalankanPemain(langkah) {
+            playerPosition += langkah;
+            
+            // Batasi Nilai Maksimal Petak Keluar Papan
+            if (playerPosition >= 25) {
+                playerPosition = 25;
+                updatePlayerTokenPosition();
+                setTimeout(() => {
+                    alert("🏆 HOREEE KAMU MENANG! Kamu telah berhasil menjadi Profesor Anatomi Tubuh Pintar!");
+                    resetGame();
+                }, 600);
+                return;
+            }
+
+            updatePlayerTokenPosition();
+
+            // Cek Efek Khusus Petak Setelah Pin Berhenti Bergerak
+            setTimeout(() => {
+                // 1. Kasus Tangga Naik
+                if (playerPosition === 4) {
+                    alert("📈 Tangga Kalsium! Tulang kakimu tumbuh kuat sekali. Lompat naik ke Petak 9!");
+                    playerPosition = 9;
+                } 
+                else if (playerPosition === 12) {
+                    alert("📈 Efek Minum Susu Sapi Murni! Tulang belakang tegak kokoh. Lompat naik ke Petak 18!");
+                    playerPosition = 18;
+                }
+                // 2. Kasus Ular Merosot Turun
+                else if (playerPosition === 14) {
+                    alert("📉 Aduh, kamu sering duduk membungkuk saat belajar! Tulang belakangmu sakit. Meluncur turun ke Petak 6!");
+                    playerPosition = 6;
+                }
+                else if (playerPosition === 22) {
+                    alert("📉 Ups! Kurang hati-hati saat bermain sehingga tulang lengan retak (Fraktur). Turun ke Petak 11 untuk pemulihan gips.");
+                    playerPosition = 11;
+                }
+                // 3. Pemicu Kuis Misteri
+                else if ([3, 8, 13, 18, 23].includes(playerPosition)) {
+                    bukaKuisInteraktif();
+                    return; // Lewati update token akhir karena diurus pasca kuis beres
+                }
+
+                updatePlayerTokenPosition();
+            }, 600);
+        }
+
+        // Penanganan Sistem Kuis Pelengkap Hambatan Game
+        function bukaKuisInteraktif() {
+            const modal = document.getElementById('quiz-modal');
+            // Ambil acak satu bank kumpulan data pertanyaan kuis
+            const soalAcak = kuisData[Math.floor(Math.random() * kuisData.length)];
+            
+            document.getElementById('quiz-question').innerText = soalAcak.q;
+            const opsiContainer = document.getElementById('quiz-answers');
+            opsiContainer.innerHTML = "";
+            
+            soalAcak.a.forEach((pilihan, indeks) => {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.innerText = pilihan;
+                btn.onclick = () => {
+                    if (indeks === soalAcak.c) {
+                        alert("🎉 JAWABAN BENAR! Kerja bagus, tulangmu mendapat tambahan stamina. Maju 1 langkah!");
+                        playerPosition += 1;
+                    } else {
+                        alert("❌ UPS SALAH! Sayang sekali jawaban kurang tepat, posisi tetap di petak ini ya.");
+                    }
+                    modal.style.display = 'none';
+                    updatePlayerTokenPosition();
+                };
+                opsiContainer.appendChild(btn);
+            });
+            
+            modal.style.display = 'flex';
+        }
+
+        function resetGame() {
+            playerPosition = 1;
+            document.getElementById('dice-view').innerText = "1";
+            updatePlayerTokenPosition();
+        }
+
+        // Jalankan Papan Pertama Kali Saat Halaman Dimuat Browser
+        buildBoardVisual();
+    </script>
+</body>
+</html>
